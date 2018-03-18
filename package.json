@@ -1,5 +1,5 @@
 {
-  "name": "pouchdb-mapreduce-no-ddocs",
+  "name": "@craftzdog/pouchdb-mapreduce-no-ddocs",
   "version": "2.3.2",
   "description": "PouchDB's map/reduce query API as a plugin.",
   "main": "./src/index.js",
@@ -9,15 +9,12 @@
   "repository": "https://github.com/pouchdb/pouchdb",
   "jsnext:main": "./src/index.js",
   "scripts": {
-    "build": "node bin/build-module.js ./",
-    "prepublish": "npm run build",
     "test": "npm run build && mocha --bail test/test.js",
     "test-phantom": "npm run build && zuul --no-coverage --phantom --ui mocha-bdd test/test.js",
     "test-coverage": "istanbul cover ./node_modules/mocha/bin/_mocha test/test.js && istanbul check-coverage --lines 100 --function 100 --statements 100 --branches 99",
     "test-local": "npm run build && zuul --no-coverage --local 9000 --ui mocha-bdd test/test.js"
   },
   "files": [
-    "lib",
     "src"
   ],
   "dependencies": {
@@ -32,9 +29,6 @@
     "pouchdb-utils": "5.4.4",
     "scope-eval": "0.0.3",
     "spark-md5": "2.0.2"
-  },
-  "browser": {
-    "./lib/index.js": "./lib/index-browser.js"
   },
   "devDependencies": {
     "chai": "^3.5.0",
