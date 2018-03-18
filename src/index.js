@@ -26,6 +26,7 @@ import {
 } from 'pouchdb-mapreduce-utils';
 import Promise from 'pouchdb-promise';
 import inherits from 'inherits';
+import isPromise from 'is-promise';
 
 var persistentQueues = {};
 var tempViewQueue = new TaskQueue();
@@ -551,7 +552,7 @@ function updateViewInQueue(view) {
         style: 'all_docs',
         since: currentSeq,
         limit: CHANGES_BATCH_SIZE
-      }).on('complete', function (response) {
+      }).on('complete', async function (response) {
         var results = response.results;
         if (!results.length) {
           return complete();
@@ -564,7 +565,10 @@ function updateViewInQueue(view) {
             doc = change.doc;
 
             if (!doc._deleted) {
-              tryCode(view.sourceDB, mapFun, [doc]);
+              const result = tryCode(view.sourceDB, mapFun, [doc]);
+              if (isPromise(result.output)) {
+                await result.output;
+              }
             }
             mapResults.sort(sortByKeyThenValue);
 
