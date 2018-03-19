@@ -477,8 +477,15 @@ function saveKeyValues(view, docIdsToChangesAndEmits, seq) {
       var docsToPersist = flatten(listOfDocsToPersist);
       lastSeqDoc.seq = seq;
       docsToPersist.push(lastSeqDoc);
-      // write all docs in a single operation, update the seq once
-      return view.db.bulkDocs({docs : docsToPersist});
+
+      var task = Promise.resolve();
+      var i, j, temparray, chunk = 100;
+      for (i = 0, j = docsToPersist.length; i < j; i += chunk) {
+        var docs = docsToPersist.slice(i, i + chunk);
+        task = task.then(view.db.bulkDocs({docs : docs}));
+      }
+
+      return task;
     });
   });
 }
