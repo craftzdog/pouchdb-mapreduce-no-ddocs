@@ -1,6 +1,6 @@
 {
   "name": "@craftzdog/pouchdb-mapreduce-no-ddocs",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "description": "PouchDB's map/reduce query API as a plugin.",
   "main": "./src/index.js",
   "keywords": [],
